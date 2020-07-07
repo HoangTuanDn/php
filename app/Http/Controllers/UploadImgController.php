@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 class UploadImgController extends Controller
 {
     public  function image($id, Request $request){
-
         $client = app()->call("App\Http\Controllers\Controller@getClient");
         $service = new Google_Service_Drive($client);
         $validator = Validator::make($request->all(),[
@@ -61,7 +60,8 @@ class UploadImgController extends Controller
     }
 
     private function getFilesFromDirectory($folderName){
-        $dirPath = "D:\dev\api_img/image/{$folderName}";
+        $dirFolderStorage = config('app.storage');
+        $dirPath = "{$dirFolderStorage}{$folderName}";
         if(!file_exists($dirPath)){
             mkdir($dirPath,'0777', true);
         }

@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 class CloneImgController extends Controller
 {
     public function index($id,Request $request){
-
         $client = app()->call("App\Http\Controllers\Controller@getClient");
         $service = new Google_Service_Drive($client);
         $files = $this->getAllFiles($id,$service);
