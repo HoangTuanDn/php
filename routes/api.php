@@ -13,6 +13,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/',function (){
+    echo "app is running";
+});
+
 Route::group(['prefix'=> 'api/img'], function() {
     Route::get('clone/{id:[a-zA-Z0-9]+}','CloneImgController@index');
     Route::post('/upload/{id:[a-zA-Z0-9]+}','UploadImgController@image');
