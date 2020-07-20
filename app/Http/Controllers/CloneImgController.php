@@ -30,7 +30,6 @@ class CloneImgController extends Controller
         $errors = $validator->errors();
         $totalImg = 0;
         $results = [];
-
         if(count($errors) >0){
             return  response()->json([
                 'message'=> 'clone img from drive is not successful',
@@ -43,6 +42,7 @@ class CloneImgController extends Controller
         else{
             if(!empty($files) && isset($wide)){
                 foreach ($files as $file){
+
                     $fileContent = $this->getFileContent($file, $service);
                     $filePath = $this->run($file, $fileContent, $wide);
                     $ok = $this->resizeImg($filePath,$wide);
@@ -56,13 +56,16 @@ class CloneImgController extends Controller
                     array_push($results,$item);
                 }
             }
-            return  response()->json([
-                'message'=> 'clone img from drive is successful',
-                'data'=>[
-                    'totalImg'=>$totalImg,
-                    'img'=>$results
-                ]
-            ],200);
+
+            if($totalImg>0){
+                return  response()->json([
+                    'message'=> 'clone img from drive is successful',
+                    'data'=>[
+                        'totalImg'=>$totalImg,
+                        'img'=> $results,
+                    ]
+                ],200);
+            }
 
         }
     }
@@ -85,6 +88,7 @@ class CloneImgController extends Controller
                 else{
                     $pageToken = null;
                 }
+
             }
             catch (Exception $e){
                 $pageToken = null;
@@ -94,6 +98,7 @@ class CloneImgController extends Controller
         }while($pageToken);
         return $results;
     }
+
     private function getFileContent($file, $service){
 
         try {
@@ -108,6 +113,7 @@ class CloneImgController extends Controller
         }
 
     }
+
     private function run($file,$fileContent, $wide){
         $filePath = storage_path("app/store_img_{$wide}/{$file->getName()}");
         try{

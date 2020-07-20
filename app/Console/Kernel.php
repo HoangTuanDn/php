@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\clone_img::class,
         Commands\upload_img::class,
+        Commands\getclient::class,
     ];
 
     /**
